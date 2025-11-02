@@ -4,7 +4,7 @@ import { commentsController } from "../controllers/summary.ts";
 
 const routes = Router();
 
-routes.get("/task/{:taskId}/comments", authMiddleware(["member", "manager"]), commentsController);
+routes.get("/task/{:taskId}/comments", authMiddleware(["MEMBER", "MANAGER"]), commentsController);
 
 
 export {

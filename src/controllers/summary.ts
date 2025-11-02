@@ -7,6 +7,7 @@ export const commentsController = async (req: Request, res: Response) => {
         const user = req.user;
         const taskId = req.params.taskId;
 
+
         const getUser = await prisma.user.findUnique({
             where: {
                 email: user?.email!
@@ -23,19 +24,19 @@ export const commentsController = async (req: Request, res: Response) => {
             }
         });
 
-        if (isTaskExist) {
+        if (!isTaskExist) {
             return res.status(404).json({message: "Task does not exist"})
         }
 
         let comments: { id: string; content: string; createdAt: Date; updatedAt: Date; taskId: string; userId: string; }[] = []
-        if (user?.role === "member") {
+        if (user?.role === "MEMBER") {
             comments = await prisma.taskComment.findMany({
                 where: {
                     userId: getUser?.id,
                     taskId: taskId!
                 }
             })
-        } else if (user?.role === "manager") {
+        } else if (user?.role === "MANAGER") {
             comments = await prisma.taskComment.findMany({
                 where: {
                     taskId: taskId!

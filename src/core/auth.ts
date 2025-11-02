@@ -10,6 +10,7 @@ const JWT_SECRET = "sec63"
 
 export async function issueJWT(params: Payload) {
     try {
+        console.log(params);
         const accessToken = await jwt.sign(params, JWT_SECRET, { algorithm: "HS256", expiresIn: 60*60 })
         return accessToken
     } catch (error) {
@@ -19,8 +20,9 @@ export async function issueJWT(params: Payload) {
 
 export async function verify(accessToken: string): Promise<Payload> {
     try {
-        const params =( await jwt.verify(accessToken, JWT_SECRET, { algorithms: ["HS256"] })) as Payload        
-        return params;
+        const params = await jwt.verify(accessToken, JWT_SECRET)
+        console.log(params);
+        return params as Payload
     } catch (error) {
         throw error;
     }
