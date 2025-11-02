@@ -36,7 +36,7 @@ export const commentsController = async (req: Request, res: Response) => {
                     taskId: taskId!
                 }
             })
-        } else if (user?.role === "MANAGER") {
+        } else if (user?.role === "MANAGER" || user?.role === "LEAD") {
             comments = await prisma.taskComment.findMany({
                 where: {
                     taskId: taskId!
